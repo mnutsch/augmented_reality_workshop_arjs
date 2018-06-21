@@ -1,13 +1,16 @@
 <h1>Quick Start: Augmented Reality with AR.js</h1>
 
-Author: Matt Nutsch - @mnutsch - http://www.mattnutsch.com
-
-Date: 6-20-2018
-
 Description:
-
 This is a quick start for making target based augmented reality using AFrame.js and AR.js.
-I put all of the dependencies into a single folder.
+Included is a template for getting started quickly. It includes all of the dependencies needed. Also included is an example of a simple app created with the template.  
+
+Author: 
+Matt Nutsch
+@mnutsch
+http://www.mattnutsch.com
+
+Date: 
+6-20-2018
 
 <hr>
 
