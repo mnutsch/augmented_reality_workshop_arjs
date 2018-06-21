@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+	<head>
+
+    <!--
+    AR.js workshop
+    Author: Matt Nutsch
+    Date: 6-20-2018
+    Description: This is sample code for a workshop on developing an AR.js app.
+    Notes:
+    This code is based in part on Jerome Etienne's examples of AR.js at: https://github.com/jeromeetienne/AR.js/tree/master/aframe
+    It is also based in part on the AFrame documentation, available at: https://aframe.io/docs
+
+    Go to this URL to run this code in a mobile web browser: https://mnutsch.github.io/arjs_workshop/start/index.html
+    Download and print this image for the AR target marker: https://github.com/mnutsch/mnutsch.github.io/raw/master/arjs_workshop/start/Hiro%20pattern%20with%20border.pdf
+    -->
+
+    <!-- include a-frame -->
+    <script src="https://mnutsch.github.io/arjs_workshop/start/vendor/aframe/build/aframe.min.js"></script>
+    <!-- include ar.js for aframe -->
+    <script src='https://mnutsch.github.io/arjs_workshop/start/vendor/arjs/build/aframe-ar.js'></script>
+    <script>ARjs.Context.baseURL = 'https://mnutsch.github.io/arjs_workshop/start/vendor/three.js/'</script>
+    <!-- Note: the above libraries are included with absolute URL's, because Github.io seems to prefer those. Change them to relative URL's -->
+
+    <script>		
+      //wait until the page loads to perform the following
+      window.onload = function () 
+      {
+
+        var intervalLength = 20; //determines the speed of the animation (milliseconds to wait between ticks)
+
+        //define the scene, for ease of interacting with it
+        var scene = document.querySelector('a-scene');       
+
+        //ADD JAVASCRIPT CODE HERE...
+
+        //for keeping track of the date and time
+        var today = new Date();
+        var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+        var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        var dateTime = date+' '+time;
+           
+        //for tracking border collisions
+        var maxX = 1;
+        var maxY = 1;
+        var maxZ = 1;
+        var minX = -1;
+        var minY = -1;
+        var minZ = -1;
+
+        //for tracking border color cooldown
+        var topBumperCoolDown = 0;
+        var rightBumperCoolDown = 0;
+        var leftBumperCoolDown = 0;
+        var bottomBumperCoolDown = 0;
+
+        //bind variables to entities
+        var myBox = document.getElementById('myBox');      
+        var myText = document.getElementById('myText');      
+        var mySphere = document.getElementById('mySphere');        
+        var leftBumper = document.getElementById('leftBumper');
+        var rightBumper = document.getElementById('rightBumper');
+        var topBumper = document.getElementById('topBumper');
+        var bottomBumper = document.getElementById('bottomBumper');
+
+        //initialize variables to track position of objects
+        var myBoxPosition = {};
+        myBoxPosition.x = 0;
+        myBoxPosition.y = 0;
+        myBoxPosition.z = 0;
+
+        var mySpherePosition = {};
+        mySpherePosition.x = 0;
+        mySpherePosition.y = 0;
+        mySpherePosition.z = 0;
+
+        var myTextPosition = {};
+        myTextPosition.x = 0;
+        myTextPosition.y = 0;
+        myTextPosition.z = 0;
+
+        //create variables to track movement vectors      
+        var mySphereVector = {};
+        mySphereVector.y = 0;
+        //pick a random number between 0.020 and 0.030 for both x and z vectors
+        mySphereVector.x = ((Math.floor(Math.random() * 30) + 20) / 1000)
+        mySphereVector.z = ((Math.floor(Math.random() * 30) + 20) / 1000)
+        
+        //Timer for animations
+        setInterval(function()
+        {
+
+          //ADD CODE HERE TO DO THINGS...
+
+          //reset the colors of the bumpers
+          if(leftBumperCoolDown > 0){
+            leftBumperCoolDown = leftBumperCoolDown - 1;
+          }
+          else{
+            leftBumper.setAttribute('color', 'blue');
+          }
+          if(rightBumperCoolDown > 0){
+            rightBumperCoolDown = rightBumperCoolDown - 1;
+          }
+          else{
+            rightBumper.setAttribute('color', 'red');
+          }
+          if(bottomBumperCoolDown > 0){
+            bottomBumperCoolDown = bottomBumperCoolDown - 1;
+          }
+          else{
+            bottomBumper.setAttribute('color', 'purple');
+          }
+          if(topBumperCoolDown > 0){
+            topBumperCoolDown = topBumperCoolDown - 1;
+          }
+          else{
+            topBumper.setAttribute('color', 'green');
+          }
+
+          //move the sphere
+          mySpherePosition.x = mySpherePosition.x + mySphereVector.x;
+          mySpherePosition.y = mySpherePosition.y + mySphereVector.y;
+          mySpherePosition.z = mySpherePosition.z + mySphereVector.z;
+          mySphere.setAttribute('position', mySpherePosition.x + ' ' + mySpherePosition.y + ' ' + mySpherePosition.z);
+          console.log("mySphere.getAttribute('position') == ", mySphere.getAttribute('position'));
+
+          //update the text of the <span>
+          myText.textContent = 'Ball Location: X = ' + mySpherePosition.x.toFixed(2) + ", Y = " + mySpherePosition.y.toFixed(2) + ", Z = " + mySpherePosition.z.toFixed(2);
+          
+          //detect collisions
+          //if the sphere hits a boundary, then reverse it's vector
+          if(mySpherePosition.x >= maxX){
+            console.log("The ball bounced off the max X border.")
+            mySphereVector.x = mySphereVector.x * -1;
+            rightBumper.setAttribute('color', 'yellow');
+            rightBumperCoolDown = 10;
+          }
+          if(mySpherePosition.x <= minX){
+            console.log("The ball bounced off the min X border.")
+            mySphereVector.x = mySphereVector.x * -1;
+            leftBumper.setAttribute('color', 'yellow');
+            leftBumperCoolDown = 10;
+          }
+          if(mySpherePosition.y >= maxY){
+            console.log("The ball bounced off the max Y border.")
+            mySphereVector.y = mySphereVector.y * -1;
+          }
+          if(mySpherePosition.y <= minY){
+            console.log("The ball bounced off the min Y border.")
+            mySphereVector.y = mySphereVector.y * -1;
+          }
+          if(mySpherePosition.z >= maxZ){
+            console.log("The ball bounced off the max Z border.")
+            mySphereVector.z = mySphereVector.z * -1;
+            bottomBumper.setAttribute('color', 'yellow');
+            bottomBumperCoolDown = 10;
+          }
+          if(mySpherePosition.z <= minZ){
+            console.log("The ball bounced off the min Z border.")
+            mySphereVector.z = mySphereVector.z * -1;
+            topBumper.setAttribute('color', 'yellow');
+            topBumperCoolDown = 10;
+          }
+          
+        }, intervalLength);
+
+      }
+    </script>
+
+  </head>
+
+  <!-- start the body of your page -->
+  <body style='margin : 0px; overflow: hidden;'>
+
+    <!-- add some info at the top of the page -->
+    <div style='position: fixed; top: 10px; width:100%; text-align: center; z-index: 1; color: white;'>
+      Instructions:<br/>
+      Point your camera at the target marker.
+    </div>    
+
+    <!-- Define your 3d scene and enabled ar.js -->
+    <a-scene debug embedded arjs='trackingMethod: best; debugUIEnabled: false;'>
+
+      <!-- Declare assets for use in the scene. -->
+      <a-assets timeout="1000">
+        <!-- Declare assets here. These are things like images or 3D models. -->    
+        
+        <!-- Example of how to declare a 3D model asset. -->
+        <!--<a-asset-item id="3DModel-obj" src="3Dmodel.obj"></a-asset-item preload="auto">-->
+        <!-- Example of how to declare a skin for a 3D model asset. -->
+        <!--<a-asset-item id="3DModel-mtl" src="3DModel.mtl"></a-asset-item>-->
+      
+      </a-assets>
+
+      <!-- Create a anchor to attach your augmented reality -->
+      <a-anchor hit-testing-enabled='true'>
+
+        <!-- Add your augmented reality items here -->
+
+        <!-- example of basic text in 3D -->
+        <!-- see: https://github.com/aframevr/aframe/blob/master/docs/components/text.md -->
+        <!--<a-entity id="basicText" position='0 0 0' scale='1 1 1' color='red' text='value: Hello World;'></a-entity>-->
+
+        <!-- example of a basic plane. -->
+        <!-- see: https://aframe.io/docs/0.8.0 -->
+        <!--<a-plane color="blue" height="1" width="1" rotation="-90 0 0"></a-plane>-->
+
+        <!-- example of text fit onto a plane -->
+        <!--
+        <a-plane
+        id = "helloWorldPlane"
+        geometry="primitive: plane; width: 1; height: 1; height: auto"
+        material="opacity: 0.5; color: white;"
+        position='0 0.25 3'>
+          <a-entity id="planeText" scale='2 2 2' text="value: Hello World;" align-"center"></a-entity>
+        </a-plane>
+        -->
+
+        <!-- Basic Box -->             
+        <!-- see: https://aframe.io/docs/0.8.0 -->
+        <a-box id="leftBumper" rotation="0 0 0" position='-1 0.05 0' depth="1.95" height="0.1" width="0.1" material='opacity: 0.9; side:double; color:blue;'></a-box>
+        <a-box id="topBumper" rotation="0 90 0" position='0 0.05 -1' depth="1.95" height="0.1" width="0.1" material='opacity: 0.9; side:double; color:green;'></a-box>
+        <a-box id="rightBumper" rotation="0 180 0" position='1 0.05 0' depth="1.95" height="0.1" width="0.1" material='opacity: 0.9; side:double; color:red;'></a-box>
+        <a-box id="bottomBumper" rotation="0 270 0" position='0 0.05 1' depth="1.95" height="0.1" width="0.1" material='opacity: 0.9; side:double; color:purple;'></a-box>
+
+        <!-- Basic Sphere --> 
+        <!-- see: https://aframe.io/docs/0.8.0/primitives/a-sphere.html -->
+        <a-sphere id="mySphere" position='0 0 0' color="yellow" radius="0.05"></a-sphere>
+
+        <!-- 3D Model example -->
+        <!-- see: https://aframe.io/docs/0.8.0/primitives/a-obj-model.html -->
+        <!--<a-obj-model id="my3DModel" src="#3DModel-obj" position="0 0 0" rotation="0 0 0" scale=".1 .1 .1" material="opacity: 0.9; side:double; color: orange;"></a-obj-model>-->
+        <!-- 3D Model example with skin -->
+        <!--<a-obj-model id="my3DModel" src="#3DModel-obj" mtl="#3DModel-mtl" position="0 0 0" rotation="0 0 0" scale="1 1 1" material="opacity: 1.0; side:double;"></a-obj-model>-->
+        
+      </a-anchor>
+
+      <!-- Define a static camera -->
+      <a-camera-static/>
+
+    </a-scene>
+
+    <!-- add some info at the bottom left of the page -->
+    <div >
+      <span id="myText" style='z-index: 1; color: white; position: fixed; left: 50px; bottom: 10px;'>Ball coordinates will appear here.</span>
+    </div>   
+
+  </body>
+
+</html>

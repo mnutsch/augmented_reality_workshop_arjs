@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+	<head>
+
+    <!--
+    AR.js workshop
+    Author: Matt Nutsch
+    Date: 6-20-2018
+    Description: This is sample code for a workshop on developing an AR.js app.
+    Notes:
+    This code is based in part on Jerome Etienne's examples of AR.js at: https://github.com/jeromeetienne/AR.js/tree/master/aframe
+    It is also based in part on the AFrame documentation, available at: https://aframe.io/docs
+
+    Go to this URL to run this code in a mobile web browser: https://mnutsch.github.io/arjs_workshop/start/index.html
+    Download and print this image for the AR target marker: https://github.com/mnutsch/mnutsch.github.io/raw/master/arjs_workshop/start/Hiro%20pattern%20with%20border.pdf
+    -->
+
+    <!-- include a-frame -->
+    <script src="https://mnutsch.github.io/arjs_workshop/start/vendor/aframe/build/aframe.min.js"></script>
+
+    <!-- include ar.js for aframe -->
+    <script src='https://mnutsch.github.io/arjs_workshop/start/vendor/arjs/build/aframe-ar.js'></script>
+    <script>ARjs.Context.baseURL = 'https://mnutsch.github.io/arjs_workshop/start/vendor/three.js/'</script>
+    <!-- Note: the above libraries are included with absolute URL's, because Github.io seems to prefer those. Change them to relative URL's -->
+
+    <script>		
+      //wait until the page loads to perform the following
+      window.onload = function () 
+      {
+
+        var intervalLength = 20; //determines the speed of the animation (milliseconds to wait between ticks)
+
+        //define the scene, for ease of interacting with it
+        var scene = document.querySelector('a-scene');       
+
+        //ADD JAVASCRIPT CODE HERE...
+
+        //Timer for animations
+        setInterval(function()
+        {
+
+          //ADD CODE HERE TO DO THINGS...
+          
+        }, intervalLength);
+
+      }
+    </script>
+
+  </head>
+
+  <!-- start the body of your page -->
+  <body style='margin : 0px; overflow: hidden;'>
+    <!-- add some info at the top of the page -->
+    <div style='position: fixed; top: 10px; width:100%; text-align: center; z-index: 1; color: white;'>
+      Instructions:<br/>
+      Point your camera at the target marker.
+    </div>    
+
+    <!-- Define your 3d scene and enabled ar.js -->
+    <a-scene debug embedded arjs='trackingMethod: best; debugUIEnabled: false;'>
+
+      <!-- Declare assets for use in the scene. -->
+      <a-assets timeout="1000">
+        <!-- Declare assets here. These are things like images or 3D models. -->    
+        
+        <!-- Example of how to declare a 3D model asset. -->
+        <!--<a-asset-item id="3DModel-obj" src="3Dmodel.obj"></a-asset-item preload="auto">-->
+        <!-- Example of how to declare a skin for a 3D model asset. -->
+        <!--<a-asset-item id="3DModel-mtl" src="3DModel.mtl"></a-asset-item>-->
+      
+      </a-assets>
+
+      <!-- Create a anchor to attach your augmented reality -->
+      <a-anchor hit-testing-enabled='true'>
+
+        <!-- Add your augmented reality items here -->
+
+        <!-- example of basic text in 3D -->
+        <!-- see: https://github.com/aframevr/aframe/blob/master/docs/components/text.md -->
+        <!--<a-entity id="basicText" position='0 0 0' scale='1 1 1' color='red' text='value: Hello World;'></a-entity>-->
+
+        <!-- example of a basic plane. -->
+        <!-- see: https://aframe.io/docs/0.8.0 -->
+        <!--<a-plane color="blue" height="1" width="1" rotation="-90 0 0"></a-plane>-->
+
+        <!-- example of text fit onto a plane -->
+        <!--
+        <a-plane
+        id = "helloWorldPlane"
+        geometry="primitive: plane; width: 1; height: 1; height: auto"
+        material="opacity: 0.5; color: white;"
+        position='0 0.25 3'>
+          <a-entity id="planeText" scale='2 2 2' text="value: Hello World;" align-"center"></a-entity>
+        </a-plane>
+        -->
+
+        <!-- Basic Box -->             
+        <!-- see: https://aframe.io/docs/0.8.0 -->
+        <a-box id="myBox" rotation="0 0 0" position='0 0 0' depth="1" height="1" width="1" material='opacity: 0.5; side:double; color:blue;'></a-box>
+        
+        <!-- Basic Sphere --> 
+        <!-- see: https://aframe.io/docs/0.8.0/primitives/a-sphere.html -->
+        <!--<a-sphere id="mySphere" position='0 0 0' color="yellow" radius="0.05"></a-sphere>-->
+
+        <!-- 3D Model example -->
+        <!-- see: https://aframe.io/docs/0.8.0/primitives/a-obj-model.html -->
+        <!--<a-obj-model id="my3DModel" src="#3DModel-obj" position="0 0 0" rotation="0 0 0" scale=".1 .1 .1" material="opacity: 0.9; side:double; color: orange;"></a-obj-model>-->
+        <!-- 3D Model example with skin -->
+        <!--<a-obj-model id="my3DModel" src="#3DModel-obj" mtl="#3DModel-mtl" position="0 0 0" rotation="0 0 0" scale="1 1 1" material="opacity: 1.0; side:double;"></a-obj-model>-->
+        
+      </a-anchor>
+
+      <!-- Define a static camera -->
+      <a-camera-static/>
+
+    </a-scene>
+
+    <!-- add some info at the bottom left of the page -->
+    <div >
+      <span id="myText" style='z-index: 1; color: white; position: fixed; left: 50px; bottom: 10px;'>Add some text here.</span>
+    </div>   
+
+  </body>
+
+</html>
