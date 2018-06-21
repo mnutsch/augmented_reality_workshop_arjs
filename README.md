@@ -16,7 +16,7 @@ Date:
 
 <strong>Instructions:</strong>
 
-Step 1: Download or Clone the code from this repository.
+Step 1: Download or Clone the code from this repository. (https://github.com/mnutsch/augmented_reality_workshop_arjs)
 
 Step 2: Print out the "hiro" target marker image. (https://raw.githubusercontent.com/jeromeetienne/AR.js/master/data/images/HIRO.jpg)
 
