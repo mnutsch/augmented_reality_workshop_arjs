@@ -37,7 +37,7 @@ Some different types of Augmented Reality:</br>
 <li><a href="https://www.mattnutsch.com/gifs/face_recognition_resized.gif">Face Recognition Target Markers</a></li>
 <li><a href="https://www.mattnutsch.com/gifs/markerless_ar.gif">Surface Detection</a></li>
 <li><a href="https://www.mattnutsch.com/gifs/pokemon_go.gif">Geo Location Based</a></li>
-<li><a href="https://www.mattnutsch.com/gifs/.gif">Visually Positioned</a></li>
+<li><a href="https://www.mattnutsch.com/gifs/visually_positioned.gif">Visually Positioned</a></li>
 <li>Other: ???</li>
 </ul>
 
