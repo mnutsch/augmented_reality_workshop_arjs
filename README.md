@@ -44,7 +44,6 @@ Some different types of Augmented Reality:</br>
 <hr>
 
 Examples of Possible Products Made With Target Marker AR</br><br/>
-
 <ul>
 <li><a href="https://www.mattnutsch.com/gifs/AR_greeting_cards.gif">AR Greeting Cards (Kineticards)</a></li>
 <li><a href="https://www.mattnutsch.com/gifs/harry_potter_paper_ar.gif">Harry Potter Newspaper</a></li>
